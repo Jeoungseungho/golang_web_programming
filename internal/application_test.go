@@ -16,10 +16,20 @@ func TestCreateMembership(t *testing.T) {
 	})
 
 	t.Run("이미 등록된 사용자 이름이 존재할 경우 실패한다.", func(t *testing.T) {
+		app := NewApplication(*NewRepository(map[string]Membership{}))
+		req := CreateRequest{"jenny", "naver"}
+		app.Create(req)
+		_, err := app.Create(req)
 
+		assert.EqualError(t, err, "user name already exists")
 	})
 
 	t.Run("사용자 이름을 입력하지 않은 경우 실패한다.", func(t *testing.T) {
+		app := NewApplication(*NewRepository(map[string]Membership{}))
+		req := CreateRequest{"jenny", "naver"}
+		app.Create(req)
+		_, err := app.Create(req)
+		assert.EqualError(t, err, "user name is required")
 
 	})
 
